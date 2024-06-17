@@ -19,7 +19,7 @@ featureClass:
 
 %End
 
-
+Press Ctrl O to save, click enter, press Ctrl X and enter to exit back to command line
 
 #Details
 #We are obtaining all first-order statistics with this, if you want only the mean to reduce computational need, then you can adjust accordingly
