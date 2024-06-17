@@ -4,4 +4,5 @@
 
 source ./example.sh       #with 'example' being the name you gave your .sh in Step 1
 
-#It should now extract the Pyradionomics to your specified output path.
+#It should now extract the Pyradionomics to your specified output path. If you didn't specify where it was, it will be in the same directory that you ran the shell script in. To check where you are, just type in pwd 
+#in the command line
