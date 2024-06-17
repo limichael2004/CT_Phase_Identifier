@@ -1,1 +1,11 @@
+Training Logistics:
 
+The total sample size was 309 unique patients: 162 pre-determined Arterial Phase patients, and 147 pre-determine Arterial Phase Patients
+
+The model was initially trained with a 70/30 split (https://towardsdatascience.com/evaluation-bias-are-you-inadvertently-training-on-your-entire-dataset-b3961aea8283#:~:text=The%2070%E2%80%9330%20split%2C%20we%20see%20it%20everywhere.%20Where,into%20most%20machine%20learning%20tools%20as%20the%20default.) but then adjusted to 68/32 incrementally to optimize accuracy.
+
+The model was ran on 100 random seeds to ensure reproducibility and robustness (https://medium.com/@abhishekjainindore24/seeding-success-a-guide-to-setting-seeds-in-data-science-5d24e00c3dc7)
+
+The model performed as follows: Over 100 seed iterations, it averaged an accuracy of 94.2251%.
+
+Over those 100 iterations, mathmatically, over (309*0.32)*100= 9900 patients ran in the testing group, there were only 33 unique incorrect patients, suggesting outliers and phase images without significant distinguishable first-order statistics
