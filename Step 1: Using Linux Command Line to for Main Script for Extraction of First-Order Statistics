@@ -1,8 +1,11 @@
-#Lets assume that you have all of your files in one directory, each folder representing a patient (i.e w*******) and each folder containing a raw nifti file and a mask nifti file (from total segmentator)
+#Lets assume that you have all of your files in one directory, for example /MDAnderon/KoayLab/Michael Li/CTPhaseProject/Data and in this CTPhase data, I have two folders (you might only need one) that are called "Arterial"
+#and "Portal Venous" and within each of these two, you have a lot of folders named w*******
+#Each folder representing a patient (i.e w*******) and each w******* folder containing a raw nifti file and a mask nifti file (from Total Segmentator)
 
 #Part 1: Using Linux Command Line to extract First-Order Statistics
 	#Navigate to the terminal (Click Windows Button and Type in Terminal)
-	#To name bash script that uses pyradionomics to extract the first-order statistics that we we run in the code, we need to use a .sh or a bash script, to do this, type in nano example.sh (where example is the name)
+	#We need a shell script to run this, in layman's A shell script is like a list of commands written in a file. When you run the script, it follows the list and does each command one by one, like a recipe
+	#To name shell script that uses pyradionomics to extract the first-order statistics that we we run in the code, we need to use a .sh, to do this, type in nano example.sh (where example is the name you want)
 	#Paste the following
 
 #Start of Script (don't include this line, it just demarcates the start)
@@ -13,7 +16,7 @@
 main_directories=("Arterial" "Portal_Venous")
 
 # Define the base path (to get to the main directories; i.e "Arterial" and "Portal_Venous" should be in "Data)
-base_path="/Radonc/Cancer Physics and Engineering Lab/Michael Li/CTPhase Project/Data"
+base_path="/MDAnderon/KoayLab/Michael Li/CTPhaseProject/Data"
 
 # Define ROI labels and their names as associative arrays (based on Total Segmentator; a full list can be found here https://github.com/wasserth/TotalSegmentator)
 declare -A roi_labels
@@ -22,8 +25,11 @@ roi_labels=(
     [64]="portal_vein_and_splenic_vein"
 )
 
-# Define the output CSV file ( "naming your spreadsheet")
+# Define the output CSV file ( "naming your spreadsheet".) 
 master_output_csv="updated_pyradiomics_master_output.csv"
+
+#Also, in this code, your output file will be appended to the same directory where you are running your script, if you want to specify the location, you can
+#Do so with something like this: master_output_csv="/MDAnderon/KoayLab/Michael Li/CTPhaseProject/updated_pyradiomics_master_output.csv"
 
 # Function to extract headers and append features to the master CSV
 append_features_to_csv() {
