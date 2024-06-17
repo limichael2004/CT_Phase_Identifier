@@ -1,0 +1,90 @@
+
+
+function predictedPhases = classify_phases(inputFilePath)       #the path to your spreadsheet
+    % Load the dataset
+    data = readtable(inputFilePath, 'VariableNamingRule', 'preserve');
+
+    % Verify the dataset, preliminary debug check
+    disp('Dataset loaded successfully.');
+    disp('Dataset preview:');
+    disp(head(data));
+
+    % Define the regions of interest
+    aortaROI = 'aorta';
+    portalVeinROI = 'portal_vein_and_splenic_vein';
+
+    % Extract mean intensities for the entire dataset
+    aortaMeans = data{strcmp(data.Label, aortaROI), 'original_firstorder_Mean'};
+    portalVeinMeans = data{strcmp(data.Label, portalVeinROI), 'original_firstorder_Mean'};
+
+    % Preconfigured mean and standard deviation values
+    arterialAortaMean = 241.7008
+    arterialAortaStd = 86.2562
+    arterialPortalVeinMean = 92.0426
+    arterialPortalVeinStd = 34.4232
+
+    portalVenousAortaMean = 130.7136
+    portalVenousAortaStd = 42.5536
+    portalVenousPortalVeinMean = 141.1064
+    portalVenousPortalVeinStd = 33.4012
+
+    % Preconfigured cutoff values
+    aortaCutoff = arterialAortaMean - 1.16 * arterialAortaStd;
+    portalVeinCutoff = arterialPortalVeinMean + 1.12 * arterialPortalVeinStd;
+
+    % Display the cutoffs
+    disp('Cutoff values:');
+    disp(['Aorta Cutoff: ', num2str(aortaCutoff)]);
+    disp(['Portal Vein Cutoff: ', num2str(portalVeinCutoff)]);
+
+    % Combine all data for classification
+    data.PredictedPhase = repmat("", height(data), 1);
+
+    % Extract unique patient IDs
+    patientIDs = unique(data.PatientID);
+    disp('Unique Patient IDs:');
+    disp(patientIDs);
+
+    for i = 1:length(patientIDs)
+        patientID = patientIDs(i);
+        disp(['Processing Patient ID: ', num2str(patientID)]); % Debugging statement
+
+        % Get aorta and portal vein data for the current patient
+        aortaData = data(data.PatientID == patientID & strcmp(data.Label, aortaROI), :);
+        portalVeinData = data(data.PatientID == patientID & strcmp(data.Label, portalVeinROI), :);
+
+        if ~isempty(aortaData) && ~isempty(portalVeinData)
+            aortaMean = aortaData.original_firstorder_Mean;
+            portalVeinMean = portalVeinData.original_firstorder_Mean;
+
+            % Specific If-Then Statement for Classification using preconfigured standard deviations
+            if aortaMean > (portalVenousAortaMean + 3.25 * portalVenousAortaStd)
+                predictedPhase = 'Arterial';
+            elseif portalVeinMean > (arterialPortalVeinMean + 3.25 * arterialPortalVeinStd)
+                predictedPhase = 'Portal_Venous';
+            elseif aortaMean < (arterialAortaMean - 3.25 * arterialAortaStd)
+                predictedPhase = 'Portal_Venous';
+            elseif portalVeinMean < (portalVenousPortalVeinMean - 3.25 * portalVenousPortalVeinStd)
+                predictedPhase = 'Arterial';
+
+            else
+                % Cutoff-based classification logic
+                if aortaMean > aortaCutoff && portalVeinMean < portalVeinCutoff
+                    predictedPhase = 'Arterial';
+                elseif aortaMean < aortaCutoff && portalVeinMean > portalVeinCutoff
+                    predictedPhase = 'Portal_Venous';
+                else
+                    predictedPhase = 'Uncertain';
+                end
+            end
+
+            % Assign the predicted phase to the relevant rows
+            data.PredictedPhase(data.PatientID == patientID & (strcmp(data.Label, aortaROI) | strcmp(data.Label, portalVeinROI))) = {char(predictedPhase)};
+        end
+    end
+
+    % Output the predicted phases for each unique patient
+    predictedPhases = unique(data(:, {'PatientID', 'PredictedPhase'}));
+    disp('Predicted phases for each patient:');
+    disp(predictedPhases);
+end
