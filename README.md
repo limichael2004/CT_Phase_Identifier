@@ -17,5 +17,5 @@ Open Source AI:
   OpenAI. (2024). ChatGPT (June 16 version) [Large language model]. OpenAI. https://www.openai.com/chatgpt
 
 
-Personal Acknowledgements
+Personal Acknowledgements:
 God, Jing Gao (mom), Rongding Li (dad), Dr. Jianneng Li, Dr. Kristin Yudt, Dr. Michelle Whaley
