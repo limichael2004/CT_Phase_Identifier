@@ -1,28 +1,28 @@
-%Lets assume that you have all of your files in one directory, each folder representing a patient (i.e w*******) and each folder containing a raw nifti file and a mask nifti file (from total segmentator)
+#Lets assume that you have all of your files in one directory, each folder representing a patient (i.e w*******) and each folder containing a raw nifti file and a mask nifti file (from total segmentator)
 
-%Part 1: Using Linux Command Line to extract First-Order Statistics
-	%Navigate to the terminal (Click Windows Button and Type in Terminal)
-	%To name bash script that uses pyradionomics to extract the first-order statistics that we we run in the code, we need to use a .sh or a bash script, to do this, type in nano example.sh (where example is the name)
-	%Paste the following
+#Part 1: Using Linux Command Line to extract First-Order Statistics
+	#Navigate to the terminal (Click Windows Button and Type in Terminal)
+	#To name bash script that uses pyradionomics to extract the first-order statistics that we we run in the code, we need to use a .sh or a bash script, to do this, type in nano example.sh (where example is the name)
+	#Paste the following
 
-%Start of Script (don't include this line, just demarcates the start)
+#Start of Script (don't include this line, it just demarcates the start)
 
 #!/bin/bash
 
 # Define the main directories (make sure to adjust to your directories)
 main_directories=("Arterial" "Portal_Venous")
 
-# Define the base path
+# Define the base path (to get to the main directories; i.e "Arterial" and "Portal_Venous" should be in "Data)
 base_path="/Radonc/Cancer Physics and Engineering Lab/Michael Li/CTPhase Project/Data"
 
-# Define ROI labels and their names as associative arrays
+# Define ROI labels and their names as associative arrays (based on Total Segmentator; a full list can be found here https://github.com/wasserth/TotalSegmentator)
 declare -A roi_labels
 roi_labels=(
     [52]="aorta"
     [64]="portal_vein_and_splenic_vein"
 )
 
-# Define the output CSV file (basically naming your spreadsheet)
+# Define the output CSV file ( "naming your spreadsheet")
 master_output_csv="updated_pyradiomics_master_output.csv"
 
 # Function to extract headers and append features to the master CSV
@@ -48,29 +48,29 @@ for main_dir in "${main_directories[@]}"; do
     echo "Processing main directory: $main_dir"
     
     # Loop through each patient folder in the main directory
-    for patient_folder in "$base_path/$main_dir"/w*; do
+    for patient_folder in "$base_path/$main_dir"/w*; do		 #this is just the way my patients are labeled, with w*******, with *'s being unique number identifiersso it loops through each one, adjust accordingly
         echo "Processing patient folder: $patient_folder"
 
         if [ "$main_dir" == "Arterial" ]; then
-            raw_file="$patient_folder/Art.raw.nii.gz"
-            ml_file="$patient_folder/Art.ml.nii.gz"
-        elif [ "$main_dir" == "Portal_Venous" ]; then
+            raw_file="$patient_folder/Art.raw.nii.gz" 		#these are the names of your raw files within each patient folder, for example inside w*******, there is a raw nifti file called Art.raw.nii.gz
+            ml_file="$patient_folder/Art.ml.nii.gz"		#name of mask file; i.e Art.ml.nii.gz
+        elif [ "$main_dir" == "Portal_Venous" ]; then		#if you have more than one directory, this is how you would indicate to loop through both of them
             raw_file="$patient_folder/Ven.raw.nii"
             ml_file="$patient_folder/Ven.ml.nii"
         fi
 
-        # Check if the files exist
-        if [ ! -f "$raw_file" ]; then
+        # Check if the files exist				#Debug to let you know if it can't find the file
+        if [ ! -f "$raw_file" ]; then					
             echo "Raw file $raw_file not found"
             continue
         fi
 
-        if [ ! -f "$ml_file" ]; then
+        if [ ! -f "$ml_file" ]; then				#Debug to let you know if it can't find the file for other directories
             echo "Mask file $ml_file not found"
             continue
         fi
 
-        # Run PyRadiomics for each label and append the output to the master CSV file
+        # Run PyRadiomics for each label and send the output to the master CSV file, more details can be found here https://github.com/AIM-Harvard/pyradiomics
         for label in "${!roi_labels[@]}"; do
             roi_name=${roi_labels[$label]}
             echo "Running PyRadiomics for ${roi_name} (label $label) in patient folder $patient_folder"
@@ -82,42 +82,22 @@ for main_dir in "${main_directories[@]}"; do
             # Run PyRadiomics and save output to temporary CSV file
             pyradiomics "$raw_file" "$ml_file" --param final.yaml --setting "label:$label" --format csv --out $temp_output_csv --verbosity 3 > $log_file 2>&1
 
-            # Check if the output file is created
+            # Check if the output file is created, debugging step
             if [ ! -f "$temp_output_csv" ]; then
                 echo "Error: PyRadiomics did not produce an output file for ${roi_name} (label $label) in patient folder $patient_folder"
                 cat $log_file
                 continue
             fi
 
-            # Append the results to the master CSV file
+            # Send the results to the master CSV file
             append_features_to_csv "$patient_folder" "$main_dir" "$roi_name" "$temp_output_csv"
 
-            # Clean up temporary files
+            # Clean up temporary files (deletes)
             rm -f $temp_output_csv $log_file
         done
     done
 done
-%End of Script (don't include this line, just demarcating the end)
 
-%Next to save this, press Ctrl O, click enter to confirm, and then press Ctrl X and enter to exit
+#End of Script (don't include this line, just demarcating the end)
 
-%Now, we are going to use a .yaml file to configure our pyradionomics (basically tell it to extract what we want)
-%Back at the terminal, in your command line, type in source ./final.yaml (you can change this, but you will have to adjust this in your bash/.sh script accordingly)
-%Copy and paste the following, note that all of the first-order statistics aren't necessary for this particular case, but are included in this master script for thoroughness
-
-%Start
-# PyRadiomics configuration file
-
-setting:
-  binWidth: 25
-  resampledPixelSpacing: [1, 1, 1]
-  interpolator: 'sitkBSpline'
-  correctMask: True
-
-imageType:
-  Original: {}
-
-featureClass:
-  firstorder: []
-
-%End
+#Next to save this, press Ctrl O, click enter to confirm, and then press Ctrl X and enter to exit back to the command line
