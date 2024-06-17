@@ -74,7 +74,7 @@ for main_dir in "${main_directories[@]}"; do
             continue
         fi
 
-        if [ ! -f "$ml_file" ]; then				#Debug to let you know if it can't find the file for other directories
+        if [ ! -f "$ml_file" ]; then				#Debug to let you know if it can't find the file for other directory
             echo "Mask file $ml_file not found"
             continue
         fi
