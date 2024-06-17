@@ -1,3 +1,6 @@
+#Much of the navigation of this code with command line was written in the context of a Virtual Machine (Ubuntu), adjust accordingly to your device
+
+
 #Lets assume that you have all of your files in one directory, for example /MDAnderon/KoayLab/Michael Li/CTPhaseProject/Data and in this CTPhase data, I have two folders (you might only need one) that are called "Arterial"
 #and "Portal Venous" and within each of these two, you have a lot of folders named w*******
 #Each folder representing a patient (i.e w*******) and each w******* folder containing a raw nifti file and a mask nifti file (from Total Segmentator)
