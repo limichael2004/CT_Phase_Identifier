@@ -1,6 +1,4 @@
-
-
-function predictedPhases = classify_phases(inputFilePath)       #the path to your spreadsheet
+function predictedPhases = classify_phases(inputFilePath)       
     % Load the dataset
     data = readtable(inputFilePath, 'VariableNamingRule', 'preserve');
 
@@ -18,15 +16,15 @@ function predictedPhases = classify_phases(inputFilePath)       #the path to you
     portalVeinMeans = data{strcmp(data.Label, portalVeinROI), 'original_firstorder_Mean'};
 
     % Preconfigured mean and standard deviation values
-    arterialAortaMean = 241.7008
-    arterialAortaStd = 86.2562
-    arterialPortalVeinMean = 92.0426
-    arterialPortalVeinStd = 34.4232
+    arterialAortaMean = 241.7008;
+    arterialAortaStd = 86.2562;
+    arterialPortalVeinMean = 92.0426;
+    arterialPortalVeinStd = 34.4232;
 
-    portalVenousAortaMean = 130.7136
-    portalVenousAortaStd = 42.5536
-    portalVenousPortalVeinMean = 141.1064
-    portalVenousPortalVeinStd = 33.4012
+    portalVenousAortaMean = 130.7136;
+    portalVenousAortaStd = 42.5536;
+    portalVenousPortalVeinMean = 141.1064;
+    portalVenousPortalVeinStd = 33.4012;
 
     % Preconfigured cutoff values
     aortaCutoff = arterialAortaMean - 1.16 * arterialAortaStd;
@@ -44,6 +42,9 @@ function predictedPhases = classify_phases(inputFilePath)       #the path to you
     patientIDs = unique(data.PatientID);
     disp('Unique Patient IDs:');
     disp(patientIDs);
+
+    % Load the pre-trained k-NN model
+    load('finalknnModel.mat', 'finalknnModel');
 
     for i = 1:length(patientIDs)
         patientID = patientIDs(i);
@@ -66,7 +67,6 @@ function predictedPhases = classify_phases(inputFilePath)       #the path to you
                 predictedPhase = 'Portal_Venous';
             elseif portalVeinMean < (portalVenousPortalVeinMean - 3.25 * portalVenousPortalVeinStd)
                 predictedPhase = 'Arterial';
-
             else
                 % Cutoff-based classification logic
                 if aortaMean > aortaCutoff && portalVeinMean < portalVeinCutoff
@@ -74,7 +74,9 @@ function predictedPhases = classify_phases(inputFilePath)       #the path to you
                 elseif aortaMean < aortaCutoff && portalVeinMean > portalVeinCutoff
                     predictedPhase = 'Portal_Venous';
                 else
-                    predictedPhase = 'Uncertain';
+                    % Use k-NN to classify the phase
+                    featureVector = [aortaMean, portalVeinMean];
+                    predictedPhase = predict(finalknnModel, featureVector);
                 end
             end
 
