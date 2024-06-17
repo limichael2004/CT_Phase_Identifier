@@ -3,6 +3,8 @@ Code Identifies if a CT Scan is in Arterial Phase or Portal Venous Phase with re
 
 
 Citations:
+
+
 Total Semmentator
     Wasserthal, J., Breit, H.-C., Meyer, M.T., Pradella, M., Hinck, D., Sauter, A.W., Heye, T., Boll, D., Cyriac, J., Yang, S., Bach, M., Segeroth, M., 2023. TotalSegmentator: Robust Segmentation of 104 Anatomic Structures in CT Images. Radiology: Artificial     Intelligence. https://doi.org/10.1148/ryai.230024
 
