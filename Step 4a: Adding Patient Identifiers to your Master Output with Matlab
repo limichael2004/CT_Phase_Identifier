@@ -19,8 +19,8 @@ matlab&
 
 function add_patient_ids()
     % Define the input and output file paths, adjust according to your liking
-    inputFilePath = '/Radonc/Cancer Physics and Engineering Lab/Michael Li/Thursday 6.14/pre_three_roi.csv';
-    outputFilePath = '/Radonc/Cancer Physics and Engineering Lab/Michael Li/Thursday 6.14/three_roi.csv';
+    inputFilePath = '/MDAnderon/KoayLab/Michael Li/CTPhaseProject/Data/master_output.csv';
+    outputFilePath = '/MDAnderon/KoayLab/Michael Li/CTPhaseProject/Data/master_output_with_patient_identifier.csv';
 
     % Load the dataset
     data = readtable(inputFilePath, 'VariableNamingRule', 'preserve');
@@ -30,7 +30,7 @@ function add_patient_ids()
     disp('Dataset preview:');
     disp(head(data));
 
-    % Add a PatientID column based on row pairs, if you extracted three ROI's, just change 2 to 3, etc
+    % Add a PatientID column based on row pairs. Note: if you extracted three ROI's, just change 2 to 3, etc
     numPatients = height(data) / 2;
     data.PatientID = repelem(1:numPatients, 2)';
 
