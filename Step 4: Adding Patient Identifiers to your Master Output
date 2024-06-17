@@ -1,3 +1,10 @@
 #Now you should have a master spreadsheet with all of the first-order statistics (Pyradiomics) that you extracted from specific ROI's (Total Segmentator).
 #However, you will notice that each unique patient w******* will have X amount of rows based on how many ROI's you extracted from 
-#For example, if you extracted 2 ROI's (aorta, 
+#For example, if you extracted 2 ROI's (aorta, portal_vein_and_splenic_vein), then each patient will have two rows
+#The future code will treat each row as a seperate patient, so we need to add something that uniquely identifies each patient.
+
+#We can do this through a code in Matlab, or if you have limited coding experience like I do, it can also be easily done, even for high power, in excel. I will show both ways
+
+#Method 1: Matlab
+  #To load up Matlab from the command line, type in the following
+  module load matlab/r22b     #or whatever version you have (22, 23, 24, etc)
