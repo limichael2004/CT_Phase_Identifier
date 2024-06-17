@@ -9,3 +9,6 @@ The model was ran on 100 random seeds to ensure reproducibility and robustness (
 The model performed as follows: Over 100 seed iterations, it averaged an accuracy of 94.2251%.
 
 Over those 100 iterations, mathmatically, over (309*0.32)*100= 9900 patients ran in the testing group, there were only 33 unique incorrect patients, suggesting outliers and phase images without significant distinguishable first-order statistics
+
+
+file:///C:/Users/mli21/Downloads/Two%20ROI%20Unannotated.jpg
