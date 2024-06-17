@@ -1,0 +1,9 @@
+#If you are not profient in code like I am, you can very quickly and effienciently do this in your excel/.csv file as well
+#Steps are as follows
+#1. Open up intended master output
+#2. Insert a new column to the left of the first one. This one should be now Column A
+#3. Paste the following command into the command line of excel (right next to the fx symbol)
+  #3...   =CEILING((ROW()-1)/2,1)
+
+#This is basically telling it to start at row 2 (since row 1 is your column names) and for every 2 rows, increase the numbering by 1. Obviously if you have more than 2 ROI's, then adjust accordingly
+#4. Click on the lower right corner of the first box in which you input the command and drag in all the way down until the bottom
