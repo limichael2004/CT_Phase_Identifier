@@ -2,4 +2,6 @@
 
 #To run extraction of the first order statistics in command line, type in
 
-source ./
+source ./example.sh       #with 'example' being the name you gave your .sh in Step 1
+
+#It should now extract the Pyradionomics to your specified output path.
