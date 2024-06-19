@@ -1,6 +1,6 @@
 
 # CT Phase Identifier
-Identifies if a CT Scan (in nifti format) is in Arterial Phase or Portal Venous Phase with relatively high accuracy (94.25% over 100 seed iterations as of 06/16/2024). For physicans, students, etc. Written in layman.
+Identifies if a CT Scan (in nifti format) is in Arterial Phase or Portal Venous Phase with relatively high accuracy (96.25% over 100 seed iterations as of 06/19/2024). For physicans, students, etc. Written in layman.
 
 This code was implemented using both Linux Command Line Terminal on a Virtual Machine (Ubuntu) along with Matlab, but can be easily adjusted for your operating system
 
