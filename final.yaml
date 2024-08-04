@@ -1,0 +1,11 @@
+setting:
+  binWidth: 25
+  resampledPixelSpacing: [1, 1, 1]
+  interpolator: 'sitkBSpline'
+  correctMask: True
+
+imageType:
+  Original: {}
+
+featureClass:
+  firstorder: []
