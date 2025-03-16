@@ -9,7 +9,7 @@ This code was implemented using both Linux Command Line Terminal on a Virtual Ma
 
 Professional Acknowledgements: David Martinus, Rance Tino, Yeseul Kim, Dontrey Bourgeois, Dr. Eugene Koay; MD Anderson Cancer Center (Houston, Texas)
 
-Personal Acknowledgements: God. Jing Gao, Rongding Li, Dr. Jianneng Li, Dr. Kristin Yudt, Dr. Michelle Whaley ; University of Notre Dame (Notre Dame, Indiana)
+Personal Acknowledgements: Jing Gao, Rongding Li, Dr. Jianneng Li, Dr. Kristin Yudt, Dr. Michelle Whaley ; University of Notre Dame (Notre Dame, Indiana)
 
 
 
