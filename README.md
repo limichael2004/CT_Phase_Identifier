@@ -1,5 +1,5 @@
 
-# CT Phase Identifier
+# PRISM – Phase Recognition through Intensity-based Segmentation and Modeling.
 Identifies if a CT Scan (in nifti format) is in Pre-Contrast, Arterial Phase, or Portal Venous Phase with relatively high accuracy (96% over 1000 seed iterations as of 06/19/2024). For physicans, students, etc. Written in layman.
 
 This code was implemented using both Linux Command Line Terminal on a Virtual Machine (Ubuntu) along with Matlab, but can be easily adjusted for your operating system
